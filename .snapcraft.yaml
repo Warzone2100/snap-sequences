@@ -1,0 +1,52 @@
+name: warzone2100-videos # no spaces, all lower-case
+version: '1'
+summary: Campaign video sequences for Warzone 2100
+license: GPL-2.0+
+description: |
+  Campaign video sequences for Warzone 2100
+  https://snapcraft.io/warzone2100
+confinement: strict
+grade: stable
+base: core18
+architectures: [ all ]
+
+slots:
+  wz2100-sequences:
+    interface: content
+    content: wz2100-sequences
+    read:
+      - $SNAP/data/sequences
+
+parts:
+  warzone2100-videos:
+    plugin: nil
+    source: .
+    override-pull: |
+      URL1="https://downloads.sourceforge.net/project/warzone2100/warzone2100/Videos/high-quality-en/sequences.wz"
+      URL2="https://github.com/Warzone2100/wz-sequences/releases/download/v3/high-quality-en-sequences.wz"
+      SHA256Sum="90ff552ca4a70e2537e027e22c5098ea4ed1bc11bb7fc94138c6c941a73d29fa"
+
+      DOWNLOAD_PATH="$SNAPCRAFT_PART_SRC/sequences.wz"
+
+      set +e
+      $SNAPCRAFT_PROJECT_DIR/scripts/FetchAndCheckSHA256.sh "${URL1}" "${DOWNLOAD_PATH}" "${SHA256Sum}"
+      result=${?}
+      if [ $result -ne 0 ]; then
+        echo "warning: Fetching from backup source ..." >&2
+        $SNAPCRAFT_PROJECT_DIR/scripts/FetchAndCheckSHA256.sh "${URL2}" "${DOWNLOAD_PATH}" "${SHA256Sum}"
+        result=${?}
+        if [ $result -ne 0 ]; then
+          echo "error: Unable to fetch video sequences" >&2
+          exit 1
+        fi
+      fi
+    override-build: |
+      # Extract sequences.wz
+      DOWNLOAD_PATH="$SNAPCRAFT_PART_SRC/sequences.wz"
+      unzip "${DOWNLOAD_PATH}" -d "$SNAPCRAFT_PART_INSTALL/data"
+    build-packages:
+      - bash
+      - curl
+      - libdigest-sha-perl
+      - gawk
+      - unzip
