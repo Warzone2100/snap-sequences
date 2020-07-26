@@ -10,7 +10,9 @@ description: |
 confinement: strict
 grade: stable
 base: core18
-architectures: [ all ]
+architectures:
+  - build-on: [amd64, i386, arm64, armhf]
+    run-on: [all]
 
 slots:
   wz2100-sequences:
