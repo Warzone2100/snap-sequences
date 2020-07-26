@@ -24,8 +24,8 @@ parts:
     plugin: nil
     source: .
     override-pull: |
-      URL1="https://downloads.sourceforge.net/project/warzone2100/warzone2100/Videos/high-quality-en/sequences.wz"
-      URL2="https://github.com/Warzone2100/wz-sequences/releases/download/v3/high-quality-en-sequences.wz"
+      URL1="https://github.com/Warzone2100/wz-sequences/releases/download/v3/high-quality-en-sequences.wz"
+      URL2="https://downloads.sourceforge.net/project/warzone2100/warzone2100/Videos/high-quality-en/sequences.wz"
       SHA256Sum="90ff552ca4a70e2537e027e22c5098ea4ed1bc11bb7fc94138c6c941a73d29fa"
 
       DOWNLOAD_PATH="$SNAPCRAFT_PART_SRC/sequences.wz"
