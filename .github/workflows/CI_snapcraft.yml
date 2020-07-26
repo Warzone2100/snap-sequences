@@ -1,0 +1,27 @@
+name: Snapcraft
+
+on:
+  push:
+    branches-ignore:
+      - 'l10n_**' # Push events to translation service branches (that begin with "l10n_")
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - '*'
+  pull_request:
+    # Match all pull requests
+
+jobs:
+  snapcraft:
+    strategy:
+      matrix:
+        include:
+          - name: "Snapcraft"
+            arch: "amd64"
+    name: '${{ matrix.name }}'
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build .SNAP
+      id: snapcraft
+      uses: snapcore/action-build@v1
