@@ -5,6 +5,8 @@ license: GPL-2.0+
 description: |
   Campaign video sequences for Warzone 2100
   https://snapcraft.io/warzone2100
+  
+  See: https://github.com/Warzone2100/warzone2100/blob/master/COPYING.README
 confinement: strict
 grade: stable
 base: core18
@@ -44,6 +46,8 @@ parts:
       # Extract sequences.wz
       DOWNLOAD_PATH="$SNAPCRAFT_PART_SRC/sequences.wz"
       unzip "${DOWNLOAD_PATH}" -d "$SNAPCRAFT_PART_INSTALL/data"
+      # Copy COPYING.README
+      cp "$SNAPCRAFT_PROJECT_DIR/COPYING.README" "$SNAPCRAFT_PART_INSTALL/COPYING.README"
     build-packages:
       - bash
       - curl
